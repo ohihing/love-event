@@ -146,6 +146,7 @@
   #photo { position: absolute; width: 1px; height: 1px; opacity: 0; }
   .photo-box { display: block; text-align: center; border: 1px dashed rgba(236,227,211,.35); padding: 22px; margin-top: 4px; cursor: pointer; font-size: 15px; transition: border-color .3s; }
   .photo-box:hover { border-color: var(--ink); }
+  .photo-box.over { border-style: solid; border-color: var(--ink); background: rgba(236,227,211,.06); }
   #photo:focus-visible + .photo-box { outline: 1px solid var(--ink); outline-offset: 4px; }
   .preview { display: none; position: relative; margin-top: 12px; }
   .preview img { max-height: 320px; margin: 0 auto; }
@@ -309,7 +310,7 @@
     <form id="form" novalidate>
       <div class="field">
         <label class="q" for="insta">인스타그램 ID<span class="req">*</span></label>
-        <p class="hint">참여하신 분의 인스타그램 ID를 입력해주세요.</p>
+        <p class="hint">참여하시는 분의 인스타그램 ID를 입력해주세요.</p>
         <input class="inp" type="text" id="insta" placeholder="@vook_da" autocomplete="off" autocapitalize="off" maxlength="40">
       </div>
 
@@ -321,7 +322,7 @@
 
       <div class="field">
         <label class="q" for="story">채집한 사랑의 사연<span class="req">*</span></label>
-        <p class="hint">어디서, 어떻게 만난 사랑인지 자유롭게 제보해주세요.</p>
+        <p class="hint">어디서, 어떻게 만난 사랑인지 자유롭게 들려주세요.</p>
         <textarea class="inp" id="story" maxlength="2000" placeholder="퇴근길 간판 사이에서…"></textarea>
         <p class="count"><span id="count">0</span> / 2000</p>
       </div>
@@ -440,14 +441,17 @@
   });
 
   // 사진 고르기 → 크기 줄이기 → 미리보기
-  $("photo").addEventListener("change", function () {
-    var f = this.files[0];
+  var canDrop = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+  var EMPTY_LABEL = canDrop ? "＋ 사진 고르기 또는 여기로 끌어다 놓기" : "＋ 사진 고르기";
+  $("photoBox").textContent = EMPTY_LABEL;
+
+  function useFile(f) {
     if (!f) return;
     if (!/^image\//.test(f.type) && !/\.(heic|heif)$/i.test(f.name)) {
-      msg.textContent = "사진 파일만 올릴 수 있어요."; this.value = ""; return;
+      msg.textContent = "사진 파일만 올릴 수 있어요."; return;
     }
     if (f.size > 100 * 1024 * 1024) {
-      msg.textContent = "100MB 이하의 사진만 올릴 수 있어요."; this.value = ""; return;
+      msg.textContent = "100MB 이하의 사진만 올릴 수 있어요."; return;
     }
     msg.textContent = "";
     $("photoBox").textContent = "사진 준비 중…";
@@ -455,17 +459,50 @@
       photoData = { data: dataUrl.split(",")[1], type: "image/jpeg" };
       $("previewImg").src = dataUrl;
       $("preview").style.display = "block";
-      $("photoBox").textContent = "다른 사진으로 바꾸기";
+      $("photoBox").textContent = canDrop ? "다른 사진으로 바꾸기 (클릭 또는 끌어다 놓기)" : "다른 사진으로 바꾸기";
     }).catch(function () {
       photoData = null;
-      $("photoBox").textContent = "＋ 사진 고르기";
+      $("photoBox").textContent = EMPTY_LABEL;
       msg.textContent = "이 사진은 열 수 없어요. 다른 사진(JPG, PNG)을 골라주세요.";
     });
+  }
+
+  // 1) 클릭해서 고르기
+  $("photo").addEventListener("change", function () {
+    useFile(this.files[0]);
+    this.value = "";
   });
+
+  // 2) 끌어다 놓기 (PC, 맥)
+  var box = $("photoBox");
+  ["dragenter", "dragover"].forEach(function (t) {
+    box.addEventListener(t, function (e) { e.preventDefault(); box.classList.add("over"); });
+  });
+  ["dragleave", "drop"].forEach(function (t) {
+    box.addEventListener(t, function (e) { e.preventDefault(); box.classList.remove("over"); });
+  });
+  box.addEventListener("drop", function (e) {
+    var files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files[0]) useFile(files[0]);
+    if (files && files.length > 1) msg.textContent = "사진은 한 장만 올릴 수 있어서 첫 번째 사진만 넣었어요.";
+  });
+  // 상자 밖에 잘못 떨어뜨려도 사진이 새 창으로 열리지 않게
+  ["dragover", "drop"].forEach(function (t) {
+    window.addEventListener(t, function (e) { if (!box.contains(e.target)) e.preventDefault(); });
+  });
+
+  // 3) 복사한 사진 붙여넣기 (Ctrl+V, ⌘+V) — 글 입력 중이 아닐 때
+  document.addEventListener("paste", function (e) {
+    var t = e.target;
+    if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA")) return;
+    var items = (e.clipboardData && e.clipboardData.files) || [];
+    if (items[0] && /^image\//.test(items[0].type)) { e.preventDefault(); useFile(items[0]); }
+  });
+
   $("removePhoto").addEventListener("click", function () {
     photoData = null; $("photo").value = "";
     $("preview").style.display = "none";
-    $("photoBox").textContent = "＋ 사진 고르기";
+    $("photoBox").textContent = EMPTY_LABEL;
   });
 
   function shrink(file) {
