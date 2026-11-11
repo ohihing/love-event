@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#252422">
+<title>사랑 채집 대회 · 《사랑 등등》 출간 기념 이벤트</title>
+<meta name="description" content="일상에서 우연히 만난 ‘사랑’을 제보해주세요. 10분께 배시은 작가 친필 사인본을 드려요.">
+<meta property="og:title" content="사랑 채집 대회">
+<meta property="og:description" content="당신이 채집한 사랑을 제보해주세요. 《사랑 등등》 출간 기념 이벤트">
+<meta property="og:image" content="https://ohihing.github.io/love-event/og-image.jpg">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<!-- 제목 글꼴: KoPub World 바탕 (안 불러와지면 노토 세리프로 대신 보여요) -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-kopubworld@1.0/batang.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap">
+<!-- 본문 글꼴: 프리텐다드 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<style>
+  /* ===== 색 (세 가지만 써요) ===== */
+  :root {
+    --bg: #252422;      /* 숯색 배경 */
+    --ink: #ece3d3;     /* 베이지 글자 */
+    --mute: #9a9387;    /* 흐린 글자 */
+    --rule: rgba(236, 227, 211, .16);  /* 가는 선 */
+    --ease: cubic-bezier(.16, 1, .3, 1);
+    --serif: "KoPubWorld Batang", "KoPubWorldBatang", "KoPub World Batang", "Noto Serif KR", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--bg); color-scheme: dark; scroll-behavior: smooth; }
+  body {
+    background: var(--bg); color: var(--ink);
+    font-family: "Pretendard", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+    font-size: 16px; line-height: 1.7; letter-spacing: -0.012em;
+    word-break: keep-all; -webkit-font-smoothing: antialiased;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+    overflow-x: hidden;
+  }
+  img { display: block; max-width: 100%; }
+  a { color: inherit; text-underline-offset: 4px; text-decoration-thickness: 1px; }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 0 24px; }
+  .serif { font-family: var(--serif); font-weight: 700; letter-spacing: -0.035em; }
+  ::selection { background: var(--ink); color: var(--bg); }
+  :focus-visible { outline: 1px solid var(--ink); outline-offset: 4px; }
+
+  /* ===== 스르륵 ===== */
+  .rv {
+    opacity: 0; transform: translateY(32px); filter: blur(6px);
+    transition: opacity 1s var(--ease), transform 1.2s var(--ease), filter 1s var(--ease);
+    transition-delay: var(--d, 0s);
+  }
+  .rv.in { opacity: 1; transform: none; filter: none; }
+
+  /* ===== 첫 화면 ===== */
+  .hero { text-align: center; padding: 76px 0 8px; }
+  .hero .kicker { font-size: 13px; color: var(--mute); letter-spacing: 0; }
+  .hero h1 { white-space: nowrap; font-size: clamp(40px, 12vw, 64px); line-height: 1.12; margin: 14px 0 30px; letter-spacing: -0.06em; }
+  .hero .net { width: 132px; margin: 0 auto 40px; }
+  .lines { list-style: none; font-size: 16px; }
+  .lines li { padding: 11px 0; border-top: 1px solid var(--rule); }
+  .lines li:last-child { border-bottom: 1px solid var(--rule); }
+  .lines b { font-weight: 600; }
+
+  /* 섹션 */
+  .sec { padding-top: 96px; }
+  .sec-title { text-align: center; font-size: 22px; line-height: 1.4; margin-bottom: 40px; }
+  .sec-title::before { content: ""; display: block; width: 1px; height: 36px; background: var(--ink); opacity: .5; margin: 0 auto 20px; }
+
+  /* ===== 사랑의 순간 ===== */
+  .moments { display: grid; grid-template-columns: 1fr 1fr; gap: 38px 16px; }
+  .moment { margin: 0; }
+  .shot img { width: 100%; height: auto; filter: drop-shadow(0 8px 12px rgba(0,0,0,.2)); }
+  .moment .shot { transition: transform 1.3s var(--ease); }
+  .moment.rv:not(.in) .shot { transform: rotate(var(--from, -6deg)) scale(.9); }
+  .moment figcaption { margin-top: 14px; font-family: var(--serif); font-weight: 700; letter-spacing: -0.03em; font-size: clamp(14px, 3.9vw, 16px); line-height: 1.45; }
+  .moment:nth-child(even) figcaption { text-align: right; }
+
+  .story { margin-top: 72px; font-size: 16px; line-height: 1.9; }
+  .story p + p { margin-top: 24px; }
+
+  /* ===== 경품 ===== */
+  .prize-pics { position: relative; height: 330px; max-width: 420px; margin: 0 auto; }
+  .prize-pics .shot { position: absolute; }
+  .prize-pics .sign { width: 66%; left: 0; top: 0; }
+  .prize-pics .author { width: 46%; right: 0; bottom: 0; }
+  .prize-text { text-align: center; font-size: 21px; line-height: 1.6; margin-top: 36px; }
+
+  /* ===== 도서 ===== */
+  .cover { width: 52%; max-width: 210px; margin: 0 auto; }
+  .cover img { width: 100%; filter: drop-shadow(0 10px 14px rgba(0,0,0,.22)); transition: transform 1.4s var(--ease); }
+  .cover.rv:not(.in) img { transform: translateY(24px) rotate(-4deg); }
+  .book-head { text-align: center; margin-top: 28px; }
+  .book-head .bt { font-size: 30px; line-height: 1.3; letter-spacing: -0.05em; }
+  .book-head .meta { font-size: 13px; color: var(--mute); margin-top: 4px; }
+
+  .quote { margin-top: 44px; font-family: var(--serif); font-weight: 700; font-size: 20px; line-height: 1.6; letter-spacing: -0.03em; text-align: center; }
+  .sub { margin-top: 18px; text-align: center; font-size: 14px; color: var(--mute); line-height: 1.7; }
+
+  .intro { position: relative; margin-top: 32px; padding-top: 28px; border-top: 1px solid var(--rule); }
+  .intro-body { position: relative; font-size: 15px; line-height: 1.95; overflow: hidden; transition: max-height .9s var(--ease); }
+  .intro.fold .intro-body { max-height: calc(1.95em * 5); }
+  .intro.fold .intro-body::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 80px; background: linear-gradient(rgba(37,36,34,0), var(--bg)); pointer-events: none; }
+  .more { display: block; margin: 14px auto 0; font: inherit; font-size: 14px; color: var(--ink); background: none; border: 0; border-bottom: 1px solid var(--rule); padding: 2px 0; cursor: pointer; }
+
+  .writer { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--rule); display: grid; grid-template-columns: 64px 1fr; gap: 16px; }
+  .writer img { width: 64px; }
+  .writer .name { font-family: var(--serif); font-weight: 700; font-size: 19px; letter-spacing: -0.03em; }
+  .writer .role { font-size: 13px; color: var(--mute); margin-left: 6px; font-family: "Pretendard", sans-serif; font-weight: 400; letter-spacing: 0; }
+  .writer .bio { font-size: 14px; line-height: 1.85; margin-top: 6px; color: #cfc6b6; }
+
+  .line-btn {
+    display: block; margin-top: 36px; padding: 15px; text-align: center; text-decoration: none;
+    font-size: 15px; border: 1px solid var(--ink); transition: background .3s, color .3s;
+  }
+  .line-btn:hover { background: var(--ink); color: var(--bg); }
+
+  /* ===== 참여 방법 ===== */
+  .steps { list-style: none; counter-reset: s; border-top: 1px solid var(--rule); }
+  .steps li {
+    counter-increment: s; display: grid; grid-template-columns: 40px 1fr; align-items: baseline;
+    padding: 18px 0; border-bottom: 1px solid var(--rule);
+  }
+  .steps li::before { content: counter(s); font-family: var(--serif); font-weight: 700; font-size: 22px; line-height: 1; }
+  .steps small { display: block; font-size: 13px; color: var(--mute); margin-top: 2px; }
+
+  .dates { margin-top: 40px; display: grid; grid-template-columns: auto 1fr; gap: 10px 22px; align-items: baseline; }
+  .dates dt { font-size: 14px; color: var(--mute); }
+  .dates dd { font-size: 16px; }
+  .dates dd span { color: var(--mute); font-size: 14px; }
+
+  /* ===== 응모란 ===== */
+  .field { margin-bottom: 36px; }
+  .q { display: block; font-weight: 600; font-size: 16px; }
+  .req { margin-left: 3px; }
+  .hint { font-size: 13px; color: var(--mute); margin: 2px 0 8px; }
+  .inp {
+    width: 100%; font: inherit; font-size: 17px; color: var(--ink); background: transparent;
+    border: 0; border-bottom: 1px solid var(--rule); border-radius: 0; padding: 10px 0;
+    transition: border-color .3s; -webkit-appearance: none; appearance: none;
+  }
+  textarea.inp { min-height: 168px; resize: vertical; line-height: 1.75; border: 1px solid var(--rule); padding: 14px; margin-top: 4px; }
+  .inp::placeholder { color: #6c665d; }
+  .inp:focus { outline: none; border-color: var(--ink); }
+  .count { text-align: right; font-size: 12px; color: var(--mute); margin-top: 6px; }
+
+  #photo { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .photo-box { display: block; text-align: center; border: 1px dashed rgba(236,227,211,.35); padding: 22px; margin-top: 4px; cursor: pointer; font-size: 15px; transition: border-color .3s; }
+  .photo-box:hover { border-color: var(--ink); }
+  #photo:focus-visible + .photo-box { outline: 1px solid var(--ink); outline-offset: 4px; }
+  .preview { display: none; position: relative; margin-top: 12px; }
+  .preview img { max-height: 320px; margin: 0 auto; }
+  .preview button { position: absolute; top: 8px; right: 8px; font: inherit; font-size: 13px; color: var(--ink); background: var(--bg); border: 1px solid var(--rule); padding: 4px 12px; cursor: pointer; }
+
+  .consent { border-left: 1px solid var(--ink); padding: 2px 0 2px 16px; margin-top: 10px; font-size: 13px; color: var(--mute); line-height: 1.75; }
+  .consent dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 14px; margin-bottom: 10px; }
+  .consent dt { color: var(--ink); }
+  .check { display: flex; align-items: center; gap: 12px; margin-top: 18px; font-size: 15px; cursor: pointer; }
+  .check input { -webkit-appearance: none; appearance: none; width: 20px; height: 20px; border: 1px solid var(--ink); display: grid; place-items: center; cursor: pointer; flex: none; }
+  .check input::after { content: ""; width: 10px; height: 10px; background: var(--ink); transform: scale(0); transition: transform .3s var(--ease); }
+  .check input:checked::after { transform: scale(1); }
+
+  .hp { position: absolute; left: -9999px; }
+
+  .btn {
+    display: block; width: 100%; font-family: var(--serif); font-weight: 700; font-size: 18px; letter-spacing: -0.03em;
+    text-align: center; text-decoration: none; color: var(--bg); background: var(--ink);
+    border: 0; border-radius: 0; padding: 17px; cursor: pointer; transition: opacity .3s, transform .3s var(--ease);
+  }
+  .btn:active { transform: scale(.98); }
+  .btn:disabled { opacity: .5; cursor: default; }
+  .msg { text-align: center; font-size: 14px; margin-top: 12px; min-height: 1.5em; color: #e3a49d; }
+
+  .done { display: none; text-align: center; padding: 20px 0; }
+  .done .big { font-size: 30px; margin-bottom: 14px; }
+  .done p { color: var(--mute); }
+  .done a { color: var(--ink); }
+  .done.show { display: block; animation: up .9s var(--ease); }
+  @keyframes up { from { opacity: 0; transform: translateY(18px); filter: blur(4px); } to { opacity: 1; transform: none; filter: none; } }
+
+  .notice { list-style: none; margin-top: 48px; font-size: 13px; color: var(--mute); }
+  .notice li { padding-left: .9em; text-indent: -.9em; margin-bottom: 6px; }
+  .notice li::before { content: "– "; }
+
+  footer { margin-top: 80px; padding: 32px 0 12px; border-top: 1px solid var(--rule); }
+  footer img { width: 31px; margin: 0 auto; opacity: .85; }
+
+  /* ===== 하단 고정 버튼 ===== */
+  .cta-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    padding: 0 0 env(safe-area-inset-bottom, 0px); background: var(--ink);
+    transition: transform .7s var(--ease);
+  }
+  .cta-bar .btn { max-width: 480px; margin: 0 auto; }
+  .cta-bar.hide { transform: translateY(105%); }
+  .btn.closed { background: #4a4741; color: var(--ink); pointer-events: none; }
+  .cta-bar:has(.closed) { background: #4a4741; }
+
+  @media (max-width: 360px) { .wrap { padding: 0 18px; } .moments { gap: 30px 12px; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .rv, .rv.in, .moment .shot, .cover img { opacity: 1; transform: none !important; filter: none; transition: none; }
+    .shot img, .cover img { filter: drop-shadow(0 8px 12px rgba(0,0,0,.2)); }
+  }
+</style>
+</head>
+<body>
+<main class="wrap">
+
+  <!-- ===== 첫 화면 ===== -->
+  <header class="hero">
+    <p class="kicker rv">《사랑 등등》 출간 기념 이벤트</p>
+    <h1 class="serif rv" style="--d:.08s">사랑 채집 대회</h1>
+    <img class="net rv" style="--d:.18s" src="net-icon.webp" alt="">
+    <ul class="lines">
+      <li class="rv" style="--d:.28s">예상하지 못한 곳에서 <b>사랑을 발견</b>했나요?</li>
+      <li class="rv" style="--d:.36s">일상에 숨어있던 뜬금없는 사랑도 좋습니다.</li>
+      <li class="rv" style="--d:.44s">당신이 <b>채집한 사랑을 제보</b>해주세요.</li>
+    </ul>
+  </header>
+
+  <!-- ===== 사랑의 순간 ===== -->
+  <section class="sec">
+    <h2 class="sec-title serif rv">일상에서 우연히 만난<br>‘사랑’의 순간</h2>
+    <div class="moments">
+      <figure class="moment rv">
+        <div class="shot" style="--from:-8deg"><img src="moment-lyrics.webp" alt="‘사랑의 종말론’이라고 적힌 노래 가사 포스터" loading="lazy"></div>
+        <figcaption>왠지 고백처럼 들리는<br>노래 가사의 사랑</figcaption>
+      </figure>
+      <figure class="moment rv" style="--d:.12s">
+        <div class="shot" style="--from:8deg"><img src="moment-search.webp" alt="‘관형사랑 형용사랑’ 검색 결과 화면" loading="lazy"></div>
+        <figcaption>궁금한 걸 검색하다 만난<br>뜻밖의 사랑</figcaption>
+      </figure>
+      <figure class="moment rv">
+        <div class="shot" style="--from:8deg"><img src="moment-cat.webp" alt="얼굴에 하트 무늬가 있는 아기 고양이" loading="lazy"></div>
+        <figcaption>골목길에서 만난<br>우연한 사랑</figcaption>
+      </figure>
+      <figure class="moment rv" style="--d:.12s">
+        <div class="shot" style="--from:-8deg"><img src="moment-chat.webp" alt="고백을 비밀로 해달라는 메신저 대화" loading="lazy"></div>
+        <figcaption>씁쓸했지만 진심이었던<br>가슴 아픈 사랑</figcaption>
+      </figure>
+    </div>
+
+    <div class="story">
+      <p class="rv">간판 사이에 숨어 있던 사랑,<br>잘못 읽어서 발견한 사랑,<br>우연히 하트가 되어버린 사물,<br>사랑과 아무 상관없는 곳에서 마주했던 사랑의 사연까지</p>
+      <p class="rv">당신이 발견한 ‘뜻밖의 사랑’이라면 무엇이든 좋습니다.</p>
+    </div>
+  </section>
+
+  <!-- ===== 경품 ===== -->
+  <section class="sec">
+    <h2 class="sec-title serif rv">여러분이 채집한 사랑을<br>제보하세요</h2>
+    <div class="prize-pics">
+      <div class="shot sign rv"><img src="book-sign.webp" alt="《사랑 등등》에 적힌 배시은 작가의 친필 사인" loading="lazy"></div>
+      <div class="shot author rv" style="--d:.15s"><img src="author.webp" alt="배시은 작가" loading="lazy"></div>
+    </div>
+    <p class="prize-text serif rv">10분을 선정해<br>‘배시은 작가 친필 사인본’<br>《사랑 등등》을 드려요.</p>
+  </section>
+
+  <!-- ===== 이벤트 도서 ===== -->
+  <section class="sec">
+    <h2 class="sec-title serif rv">이벤트 도서</h2>
+    <div class="cover rv"><img src="book.webp" alt="《사랑 등등》 표지" loading="lazy"></div>
+    <div class="book-head rv">
+      <p class="bt serif">사랑 등등</p>
+      <p class="meta">배시은 시집 · 어떤시집 02</p>
+    </div>
+
+    <p class="quote rv">“나는 마침내 사랑으로<br>정돈되지 않는 것들을<br>사랑하고 싶다.”</p>
+    <p class="sub rv">믿지 않아서 가능한 사랑의 방식<br>생략된 흔적을 복원하는 어떤 추적의 기록</p>
+
+    <div class="intro fold rv" id="intro">
+      <div class="intro-body" id="introBody">
+        <p>첫 시집 『소공포』에서 배시은은 익숙한 질서와 형식에서 비껴나 기존 언어의 기호와 내용을 새롭게 배치했다. 『사랑 등등』은 그 시선을 우리가 잘 안다고 여기는 말, ‘사랑’으로 옮겨온다. 사람들의 머릿속에는 저마다의 사랑이 있다. 어쩌면 세상에서 가장 힘이 셀 이 단어는 필연적으로 너무 많은 의미가 생략돼 있고 거대한 만큼 납작할 수밖에 없다. 사랑한다는 말은 무엇을 포함하고 무엇을 놓치는가. 그 말을 주고받았다는 사실만으로 우리는 서로를 이해했다고 할 수 있는가.</p>
+        <p style="margin-top:1em">익숙한 말의 낯선 구석을 살피는 배시은 특유의 작업은 이 시집에서 또렷한 사랑 곁에 희미하게 드러나는 ‘등등’을 되새기는 일로 이어진다. 사랑이 자기 것 같지 않던 시인은 자신을 대신할 한 인물을 떠올린다. 시인은 그가 쓴 일기와 시, 가사, 편지, 메모뿐 아니라 그가 간직했던 타인의 글까지 모으는 ‘복원자’가 된다. 한 사람이 사랑을 경험하는 방식의 실마리를 찾기 위해서.</p>
+      </div>
+      <button type="button" class="more" id="more" aria-expanded="false" aria-controls="introBody">소개 더 보기</button>
+    </div>
+
+    <div class="writer rv">
+      <img src="author.webp" alt="">
+      <div>
+        <p class="name">배시은<span class="role">시인 · 작업자</span></p>
+        <p class="bio">다른 이름은 akzkeka. 시집 『소공포』를 썼다. 작업을 시작할 때마다 다루려는 대상에 가장 알맞은 매체와 형식을 찾는다. 현재는 사물을 수집하고 기록하며 서로 다른 사물들이 한데 묶일 수 있는 기준을 찾는 중이다.</p>
+      </div>
+    </div>
+
+    <a class="line-btn rv" href="https://product.kyobobook.co.kr/detail/S000221807006" target="_blank" rel="noopener">도서 상세 보기</a>
+  </section>
+
+  <!-- ===== 참여 방법 ===== -->
+  <section class="sec">
+    <h2 class="sec-title serif rv">이벤트 참여 방법</h2>
+    <ol class="steps">
+      <li class="rv"><span><a href="https://www.instagram.com/vook_da/" target="_blank" rel="noopener">북다 인스타그램</a> 팔로우</span></li>
+      <li class="rv"><span>채집한 사랑 준비하기<small>사진 또는 글, 무엇이든 좋아요</small></span></li>
+      <li class="rv"><span>아래 응모란에서 사랑 제보하기<small>로그인 없이 바로 응모할 수 있어요</small></span></li>
+      <li class="rv"><span>북다 인스타그램 이벤트 피드에 ‘채집 완료’ 댓글 남기기</span></li>
+    </ol>
+    <dl class="dates rv">
+      <dt>참여 마감</dt><dd>11월 22일 (일)</dd>
+      <dt>당첨자 발표</dt><dd>11월 24일 (월) <span>· 개별 연락</span></dd>
+    </dl>
+  </section>
+
+  <!-- ===== 응모란 ===== -->
+  <section class="sec" id="apply" aria-labelledby="apply-title">
+    <h2 class="sec-title serif rv" id="apply-title">사랑 제보하기</h2>
+    <div class="rv">
+    <form id="form" novalidate>
+      <div class="field">
+        <label class="q" for="insta">인스타그램 ID<span class="req">*</span></label>
+        <p class="hint">이벤트에 참여하신 ID로 입력해주세요.</p>
+        <input class="inp" type="text" id="insta" placeholder="@vook_da" autocomplete="off" autocapitalize="off" maxlength="40">
+      </div>
+
+      <div class="field">
+        <label class="q" for="phone">전화번호<span class="req">*</span></label>
+        <p class="hint">당첨 안내 문자를 받을 수 있는 번호를 입력해주세요.</p>
+        <input class="inp" type="tel" id="phone" placeholder="010-0000-0000" inputmode="tel" autocomplete="tel" maxlength="13">
+      </div>
+
+      <div class="field">
+        <label class="q" for="story">채집한 사랑의 사연<span class="req">*</span></label>
+        <p class="hint">어디서, 어떻게 만난 사랑인지 자유롭게 들려주세요.</p>
+        <textarea class="inp" id="story" maxlength="2000" placeholder="퇴근길 간판 사이에서…"></textarea>
+        <p class="count"><span id="count">0</span> / 2000</p>
+      </div>
+
+      <div class="field">
+        <span class="q">채집한 사랑 사진 <span style="font-weight:400;color:var(--mute)">(선택)</span></span>
+        <p class="hint">사진은 한 장만 올려주세요.</p>
+        <input type="file" id="photo" accept="image/*">
+        <label class="photo-box" for="photo" id="photoBox">＋ 사진 고르기</label>
+        <div class="preview" id="preview">
+          <img id="previewImg" alt="올린 사진 미리보기">
+          <button type="button" id="removePhoto">사진 빼기</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="q">개인정보 수집·이용 동의<span class="req">*</span></span>
+        <div class="consent">
+          <dl>
+            <dt>수집 항목</dt><dd>인스타그램 ID, 전화번호, 사연, 사진</dd>
+            <dt>이용 목적</dt><dd>당첨자 선정 및 당첨 안내</dd>
+            <dt>보유 기간</dt><dd>이벤트 종료 후 즉시 파기</dd>
+          </dl>
+          동의하지 않으실 수 있으며, 동의하지 않으시면 이벤트에 참여할 수 없어요. 당첨되신 분의 사연은 북다 인스타그램 피드에 공개되며, 계정과 실명은 공개하지 않아요.
+        </div>
+        <label class="check"><input type="checkbox" id="agree"> 동의합니다</label>
+      </div>
+
+      <input type="text" id="website" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+      <button type="submit" class="btn" id="submitBtn">응모하기</button>
+      <p class="msg" id="msg" role="alert"></p>
+    </form>
+
+    <div class="done" id="done">
+      <p class="big serif">채집 완료!</p>
+      <p>응모가 접수되었어요.<br>마지막으로 <a href="https://www.instagram.com/vook_da/" target="_blank" rel="noopener">북다 인스타그램</a> 이벤트 피드에<br>‘채집 완료’ 댓글을 남기면 참여가 끝나요.</p>
+    </div>
+    </div>
+
+    <ul class="notice rv">
+      <li>이벤트 종료 후 당첨되신 분의 사연은 북다 인스타그램 피드에 공개됩니다. 접수자의 계정과 실명은 공개하지 않아요.</li>
+      <li>여러분의 많은 참여와 관심을 부탁드립니다!</li>
+    </ul>
+  </section>
+
+  <footer class="rv"><img src="logo.png" alt="북다"></footer>
+</main>
+
+<!-- 하단 고정 버튼 -->
+<div class="cta-bar" id="ctaBar">
+  <a class="btn" id="cta" href="#apply">사랑 제보하러 가기</a>
+</div>
+
+<script>
+  // ▼ 구글 시트 웹 앱 주소
+  var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwifQieFzsrXogV3QTZrBMjinrbKwAsBoB6YkDsgtGH1NsNyAl04UDYTpVYwWS4NzdU/exec";
+  var DEADLINE = new Date("2026-11-22T23:59:59+09:00");
+
+  var $ = function (id) { return document.getElementById(id); };
+  var form = $("form"), msg = $("msg"), btn = $("submitBtn");
+  var photoData = null;
+
+  // ----- 스르륵 등장 -----
+  var items = document.querySelectorAll(".rv");
+  if ("IntersectionObserver" in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    items.forEach(function (el) { io.observe(el); });
+
+    // 응모란이 화면에 보이면 하단 버튼 숨기기
+    new IntersectionObserver(function (es) {
+      $("ctaBar").classList.toggle("hide", es[0].isIntersecting);
+    }, { threshold: 0.15 }).observe($("apply"));
+  } else {
+    items.forEach(function (el) { el.classList.add("in"); });
+  }
+
+
+  // ----- 도서 소개 더 보기 -----
+  $("more").addEventListener("click", function () {
+    var box = $("intro"), body = $("introBody"), open = box.classList.contains("fold");
+    if (open) {
+      body.style.maxHeight = body.scrollHeight + "px";
+      box.classList.remove("fold");
+      this.textContent = "소개 접기";
+    } else {
+      body.style.maxHeight = "";
+      box.classList.add("fold");
+      this.textContent = "소개 더 보기";
+      box.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+    this.setAttribute("aria-expanded", String(open));
+  });
+
+
+  // ----- 마감 처리 -----
+  if (new Date() > DEADLINE) {
+    $("cta").textContent = "이벤트가 마감되었어요";
+    $("cta").classList.add("closed");
+    $("cta").removeAttribute("href");
+    form.style.display = "none";
+    $("done").classList.add("show");
+    $("done").innerHTML = '<p class="big serif">이벤트가 마감되었어요</p><p>참여해주셔서 감사합니다.</p>';
+  }
+
+  // 글자 수
+  $("story").addEventListener("input", function () { $("count").textContent = this.value.length; });
+
+  // 전화번호 자동 하이픈
+  $("phone").addEventListener("input", function () {
+    var n = this.value.replace(/\D/g, "").slice(0, 11);
+    this.value = n.length < 4 ? n : n.length < 8 ? n.slice(0,3)+"-"+n.slice(3) :
+      n.length < 11 ? n.slice(0,3)+"-"+n.slice(3,6)+"-"+n.slice(6) : n.slice(0,3)+"-"+n.slice(3,7)+"-"+n.slice(7);
+  });
+
+  // 사진 고르기 → 크기 줄이기 → 미리보기
+  $("photo").addEventListener("change", function () {
+    var f = this.files[0];
+    if (!f) return;
+    if (!/^image\//.test(f.type) && !/\.(heic|heif)$/i.test(f.name)) {
+      msg.textContent = "사진 파일만 올릴 수 있어요."; this.value = ""; return;
+    }
+    msg.textContent = "";
+    $("photoBox").textContent = "사진 준비 중…";
+    shrink(f).then(function (dataUrl) {
+      photoData = { data: dataUrl.split(",")[1], type: "image/jpeg" };
+      $("previewImg").src = dataUrl;
+      $("preview").style.display = "block";
+      $("photoBox").textContent = "다른 사진으로 바꾸기";
+    }).catch(function () {
+      photoData = null;
+      $("photoBox").textContent = "＋ 사진 고르기";
+      msg.textContent = "이 사진은 열 수 없어요. 다른 사진(JPG, PNG)을 골라주세요.";
+    });
+  });
+  $("removePhoto").addEventListener("click", function () {
+    photoData = null; $("photo").value = "";
+    $("preview").style.display = "none";
+    $("photoBox").textContent = "＋ 사진 고르기";
+  });
+
+  function shrink(file) {
+    return new Promise(function (ok, fail) {
+      var url = URL.createObjectURL(file), img = new Image();
+      img.onload = function () {
+        var max = 1600, w = img.naturalWidth, h = img.naturalHeight, r = Math.min(1, max / Math.max(w, h));
+        var c = document.createElement("canvas");
+        c.width = Math.round(w * r); c.height = Math.round(h * r);
+        c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+        URL.revokeObjectURL(url);
+        ok(c.toDataURL("image/jpeg", 0.85));
+      };
+      img.onerror = function () { URL.revokeObjectURL(url); fail(); };
+      img.src = url;
+    });
+  }
+
+  // 응모하기
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var insta = $("insta").value.trim(), phone = $("phone").value.trim(), story = $("story").value.trim();
+    if (!insta) return warn("인스타그램 ID를 입력해주세요.", "insta");
+    if (!/^01[016789]-?\d{3,4}-?\d{4}$/.test(phone)) return warn("전화번호를 다시 확인해주세요. 예) 010-0001-0002", "phone");
+    if (!story) return warn("채집한 사랑의 사연을 적어주세요.", "story");
+    if (!$("agree").checked) return warn("개인정보 수집·이용에 동의해야 응모할 수 있어요.", "agree");
+
+    btn.disabled = true; btn.textContent = "보내는 중…"; msg.textContent = "";
+    fetch(SCRIPT_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({ insta: insta, phone: phone, story: story, agree: true,
+                             photo: photoData, website: $("website").value })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (!res.ok) throw new Error(res.msg || "");
+      form.style.display = "none";
+      $("done").classList.add("show");
+      $("apply").scrollIntoView({ behavior: "smooth", block: "center" });
+    })
+    .catch(function (err) {
+      var t = err && err.message;
+      msg.textContent = (!t || t === "Failed to fetch" || /JSON|Load failed|NetworkError/i.test(t))
+        ? "전송이 안 됐어요. 인터넷 연결을 확인하고 다시 눌러주세요." : t;
+      btn.disabled = false; btn.textContent = "응모하기";
+    });
+  });
+
+  function warn(text, id) { msg.textContent = text; if (id) $(id).focus(); }
+</script>
+
+</body>
+</html>
